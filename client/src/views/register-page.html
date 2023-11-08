@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TextMeBruh | Register</title>
+
+    <link rel="stylesheet" href="css/login-page.css">
+</head>
+<body>
+    <main>
+        <form id = 'register-form' method="post">
+            
+            <label for="register-user-input">Enter your username</label>
+            <input id = 'register-user-input'name = 'username' type="text" placeholder="Username" required>
+
+            <label for="register-password-input">Enter your password</label>
+            <input id = 'register-password-input' name = 'password' type="password" placeholder="Password" required>
+
+            <label for="register-password-repeat-input">Repeat your password</label>
+            <input id = 'register-password-repeat-input' name = 'password-repeat' type="password" placeholder="Repeat password" required>
+            
+            <button id = 'register-form-submit' type = 'submit'>Register</button>
+        </form>
+
+        <a id = 'register-login-redirect' href="/login">Login instead</a>
+
+        <p id = 'register'></p>
+
+    </main>
+</body>
+</html>

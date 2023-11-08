@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>TextMeBruh | Login</title>
+
+    <link rel="stylesheet" href="css/login-page.css">
+</head>
+<body>
+    <main>
+        <form id = 'login-form' method="post">
+            
+            <label for="login-user-input">Enter your username</label>
+            <input id = 'login-user-input'name = 'username' type="text" placeholder="username" required>
+
+            <label for="login-password-input">Enter your password</label>
+            <input id = 'login-password-input' name = 'password' type="password" placeholder="password" required>
+            
+            <button id = 'login-form-submit' type = 'submit'>Login</button>
+        </form>
+
+        <a id = 'login-register-redirect' href="/register">Register instead</a>
+
+        <p id = 'login-output-status'></p>
+
+    </main>
+</body>
+</html>
+
+<script src = 'scripts/auth/submit-login.js'></script>
