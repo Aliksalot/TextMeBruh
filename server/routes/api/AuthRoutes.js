@@ -1,16 +1,11 @@
 const express = require('express')
 const router = express.Router()
 
-router.use(express.json())
+const userController = require('../../controllers/UserController')
 
-router.post('/loginattempt', (req, res) => {
-    if(req.body.logged){
-        res.send({status: true})
-    }
-    res.send({status: "hello"})
-})
+router.post('/loginattempt', userController.login)
 
-
+router.post('/register', userController.newUser)
 
 
 module.exports = router;

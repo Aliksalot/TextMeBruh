@@ -22,4 +22,4 @@ const getCollection = (collectionName) => {
     }
 }
 
-module.exports = getCollection()
+module.exports = getCollection
