@@ -4,13 +4,12 @@ const passHandler = require('../utils/passHandler')
 const getCollection = require('../config/database_connect')
 const { userCollectionName } = require('../config/database_constants')
 
+const sessionHandler = require('../utils/userSession')
+
 const newAccountStatus = {
     taken: "TAKEN",
     success: "OK",
-    other: "OTHER",
-    password_short: "SHORT",
-    password_bad: "BAD",
-    password_not_match: "WRONG"
+    other: "OTHER"
 }
 
 const newUser = async(req, res) => {
@@ -27,23 +26,10 @@ const newUser = async(req, res) => {
     }
         
 
-    if(password !== password_repeat){
-        res.send({status: newAccountStatus.password_not_match})
-        return
-    }
+    const passwordState = passHandler.passwordState(password)
 
-    if(password.length < 4){
-        res.send({status: newAccountStatus.password_short})
-        return
-    }
-
-    const isPassBad = () =>{
-        const regex = /^(?!.*password).+$/
-        return !regex.test(password)
-    }
-
-    if(isPassBad(password)){
-        res.send({status: newAccountStatus.password_bad})
+    if(passwordState != passHandler.passwordStatus.ok){
+        res.send({status: passwordState})
         return
     }
 
@@ -60,6 +46,9 @@ const newUser = async(req, res) => {
     try{
         const user = new User(username, password)
         console.log("new user success - sending status ok")
+
+        sessionHandler.setLoggedIn(req, username)
+
         res.send({status: newAccountStatus.success})
         return
     }catch(e){
@@ -76,6 +65,7 @@ const login = async(req, res) => {
         const username= req.body.username
         const password = req.body.password
         
+
         if(username === undefined || password === undefined){
             res.send({success: false})
             return
@@ -84,9 +74,11 @@ const login = async(req, res) => {
         console.log('Login request for ', username)
 
         const user = new User(username)
-        console.log(user)
+        const hashedPassword = await user.getHashedPassword()
+        console.log(user, password, hashedPassword)
 
-        if(passHandler.comparePasswords(password, user.getHashedPassword())){
+        const passwordsMatch = await passHandler.comparePasswords(password, hashedPassword);
+        if(passwordsMatch){
             console.log('Login success for ', username)
             res.send({success: true})
         }else{

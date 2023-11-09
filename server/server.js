@@ -4,6 +4,13 @@ const path = require('path')
 
 const app = express()
 
+const session = require('express-session')
+app.use(session({
+    secret: "IAmSecret",
+    resave: false,
+    saveUninitialized: true
+}))
+
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
 

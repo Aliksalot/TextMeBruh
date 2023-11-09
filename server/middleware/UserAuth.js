@@ -2,6 +2,8 @@
 const allowed_api_routes = ['/api/auth/loginattempt', '/api/auth/register']
 const allowed_view_routes = ['/login', '/register', '/favicon.ico']
 
+const { isLogged } = require('../utils/userSession')
+
 const routeAllowed = (route) => {
     const allowed_routes = [...allowed_api_routes, ...allowed_view_routes]
     for(let i = 0; i < allowed_routes.length; i++){
@@ -13,7 +15,7 @@ const routeAllowed = (route) => {
 
 const auth = (req, res, next) => {
     const route = req.originalUrl
-    if(req.body.logged){
+    if(isLogged()){
         console.log('allowing', route)
         next()
         return
