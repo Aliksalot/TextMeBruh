@@ -22,6 +22,8 @@ const submitLogin = async(event) => {
             return response.json()
     }).then(result => {
         console.log(result)
+        if(result.success)
+            window.location.href = '/home'
     })
 }
 

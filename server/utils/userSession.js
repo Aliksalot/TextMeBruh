@@ -11,7 +11,13 @@ const isLogged = (req) => {
     
 }
 
+const logout = (req) => {
+    req.session.logged = undefined
+}
+
 module.exports = {
     setLoggedIn,
-    isLogged
+    isLogged,
+    logout
+
 }

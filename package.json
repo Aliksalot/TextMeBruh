@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start_w": "cls && node server/server.js",
-    "start_l": "clear && node server/server.js"
+    "start_l": "clear && node server/server.js",
+    "status": "cloc --exclude-dir=node_modules ."
   },
   "keywords": [],
   "author": "",

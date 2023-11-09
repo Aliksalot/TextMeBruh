@@ -13,6 +13,7 @@ const newAccountStatus = {
 }
 
 const newUser = async(req, res) => {
+
     const username = req.body.username
     const password = req.body.password
     const password_repeat = req.body.password_repeat
@@ -21,15 +22,16 @@ const newUser = async(req, res) => {
     console.log(req.body)
 
     if(username === undefined || password === undefined || password_repeat === undefined){
-        res.send({status: newAccountStatus.other})
+        res.send(JSON.stringify({status: newAccountStatus.other}))
         return
     }
         
 
-    const passwordState = passHandler.passwordState(password)
+    const passwordState = passHandler.passwordState(password, password_repeat)
 
-    if(passwordState != passHandler.passwordStatus.ok){
-        res.send({status: passwordState})
+    if(passwordState !== passHandler.passwordStatus.ok){
+        console.log('password issue when registering: ', passwordState)
+        res.send(JSON.stringify({status: passwordState}))
         return
     }
 
@@ -39,7 +41,7 @@ const newUser = async(req, res) => {
 
     if(!isUserAvailable){
         console.log('username taken - sending status taken')
-        res.send({status: newAccountStatus.taken})
+        res.send(JSON.stringify({status: newAccountStatus.taken}))
         return
     }
 
@@ -49,7 +51,7 @@ const newUser = async(req, res) => {
 
         sessionHandler.setLoggedIn(req, username)
 
-        res.send({status: newAccountStatus.success})
+        res.send(JSON.stringify({status: newAccountStatus.success}))
         return
     }catch(e){
         console.log('error when creating new user, probably username taken', e)
@@ -80,6 +82,7 @@ const login = async(req, res) => {
         const passwordsMatch = await passHandler.comparePasswords(password, hashedPassword);
         if(passwordsMatch){
             console.log('Login success for ', username)
+            sessionHandler.setLoggedIn(req, username)
             res.send({success: true})
         }else{
             console.log('Login fail for ', username)
@@ -87,12 +90,19 @@ const login = async(req, res) => {
         }
 
     }catch(e){
-
+        console.log('Error when loggin in:' , e)
+        res.send({success: false})
     }
 
 }
 
+const logout = (req, res) => {
+    sessionHandler.logout()
+    res.redirect('/home');
+}
+
 module.exports = {
     newUser,
-    login
+    login,
+    logout,
 }

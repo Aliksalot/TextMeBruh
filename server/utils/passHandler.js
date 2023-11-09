@@ -28,13 +28,13 @@ const comparePasswords = async(passwordAttempt, hashedPassword) => {
     })
 }
 
-const passwordState = async(password) => {
+const passwordState = (password, password_repeat) => {
     if(password !== password_repeat){
-        return  passwordStatus.password_not_match
+        return  passwordStatus.not_match
     }
 
     if(password.length < 4){        
-        return  passwordStatus.password_short
+        return  passwordStatus.short
     }
 
     const isPassBad = () =>{
@@ -43,7 +43,7 @@ const passwordState = async(password) => {
     }
 
     if(isPassBad(password)){        
-        return  passwordStatus.password_bad
+        return  passwordStatus.bad
     }
 
     return passwordStatus.ok

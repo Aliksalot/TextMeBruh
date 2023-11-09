@@ -15,7 +15,7 @@ const routeAllowed = (route) => {
 
 const auth = (req, res, next) => {
     const route = req.originalUrl
-    if(isLogged()){
+    if(isLogged(req)){
         console.log('allowing', route)
         next()
         return
