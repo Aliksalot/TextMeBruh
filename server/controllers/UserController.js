@@ -97,12 +97,13 @@ const login = async(req, res) => {
 }
 
 const logout = (req, res) => {
-    sessionHandler.logout()
-    res.redirect('/home');
+    console.log('Loggin out user ', req.body)
+    sessionHandler.logout(req)
+    res.redirect('/login');
 }
 
 module.exports = {
     newUser,
     login,
-    logout,
+    logout
 }

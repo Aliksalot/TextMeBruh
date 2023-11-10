@@ -1,3 +1,11 @@
+
+//store {username, token, createdWhen}
+const sessionTokens = []
+
+const genToken = () => {
+
+}
+
 const setLoggedIn = (req, username) => {
     req.session.logged = username
 }
